@@ -13,7 +13,7 @@ def proc_args():
     pars.add_argument('gl', type=float)
     pars.add_argument('gb', type=float)
     pars.add_argument('-f', '--freq', default=408, type=float)
-    pars.add_argument('-s', '--spind', default=-2.9, type=float)
+    pars.add_argument('-s', '--spind', default=-2.6, type=float)
 
     return(vars(pars.parse_args()))
 
@@ -72,7 +72,7 @@ class SkyTemp:
         cs_b = CubicSpline(bvals, temps_b)
         return(np.mean([cs_l(gl), cs_b(gb)]))
 
-    def get_temp(self, freq, spec_ind=-2.9):
+    def get_temp(self, freq, spec_ind=-2.6):
         """
         Derive the temperature of the sky at the given frequency.
 
@@ -81,7 +81,7 @@ class SkyTemp:
         freq - float or numpy.ndarray of floats, the desired frequency/ies
             for conversion
         spec_ind - float, the spectral index of the sky temperature
-            (Default: -2.9)
+            (Default: -2.6)
 
         Returns
         -------
@@ -93,7 +93,7 @@ class SkyTemp:
         return(self.temp408*(freq/408)**spec_ind)
 
 
-def main(fits, gl, gb, freq=408, spind=-2.9):
+def main(fits, gl, gb, freq=408, spind=-2.6):
     print("gl      gb     freq  temp")
     temp = SkyTemp(gl, gb, fits).get_temp(freq, spind)
     print("{:<7.2f} {:<6.2f} {:<5.0f} {:.3f}".format(gl, gb, freq, temp))
