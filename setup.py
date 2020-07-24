@@ -21,7 +21,7 @@ def readfile(filename):
 VERSION_REGEX = re.compile("__version__ = \"(.*?)\"")
 CONTENTS = readfile(os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
-    "psrqpy", "__init__.py"))
+    "skytempy", "__init__.py"))
 
 VERSION = VERSION_REGEX.findall(CONTENTS)[0]
 
