@@ -1,4 +1,4 @@
-from _future_ import print_function, division, absolute_import
+from __future__ import print_function, division, absolute_import
 
 import numpy as np, argparse as ap
 from scipy.interpolate import CubicSpline
@@ -8,10 +8,10 @@ from astropy.table import Table
 def proc_args():
     pars = ap.ArgumentParser()
     pars.add_argument('fits')
-    pars.add_argument('gl')
-    pars.add_argument('gb')
-    pars.add_argument('-f', '--freq', default=408)
-    pars.add_argument('-s', '--spind', default=-2.9)
+    pars.add_argument('gl', type=float)
+    pars.add_argument('gb', type=float)
+    pars.add_argument('-f', '--freq', default=408, type=float)
+    pars.add_argument('-s', '--spind', default=-2.9, type=float)
 
     return(vars(pars.parse_args()))
 
@@ -88,10 +88,13 @@ class SkyTemp:
 def read_fits(fits_file):
     t = Table.read(fits_file)
     return(t['TEMPERATURE'])
+
+
+def main(fits, gl, gb, freq=408, spind=-2.9):
+    table = read_fits(fits)
+    print("gl  gb  freq  temp")
+    print("{} {} {} {:.3f}".format(gl, gb, freq, SkyTemp(gl, gb, table).get_temp(freq, spind)))
         
 
 if __name__ == "__main__":
-    fits, gl, gb, freq, spind = proc_args()
-    table = read_fits(fits)
-    print("gl  gb  freq  temp")
-    print("{} {} {} {}".format(gl, gb, freq, SkyTemp(gl, gb, table).get_temp(freq, spind)))
+    main(**proc_args())
