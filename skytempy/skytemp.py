@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from __future__ import print_function, division, absolute_import
+from __future__ import print_function, division
 
 import numpy as np, argparse as ap
 from scipy.interpolate import CubicSpline
@@ -55,7 +55,7 @@ class SkyTemp:
         self.fits_file = fits
         self.table, self.meta = self.read_fits()
         self.flat_tab = self.table.flatten()
-        self.temp408 = self.interp()
+        self.temp408 = float(self.interp())
 
     def read_fits(self):
         t = Table.read(self.fits_file)
