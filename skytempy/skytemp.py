@@ -1,3 +1,5 @@
+# coding: utf-8
+
 from __future__ import print_function, division, absolute_import
 
 import numpy as np, argparse as ap
@@ -7,13 +9,21 @@ import astropy.units as u
 from astropy_healpix import HEALPix
 
 
+__all__ = ['SkyTemp',]
+
+
 def proc_args():
-    pars = ap.ArgumentParser()
-    pars.add_argument('fits')
-    pars.add_argument('gl', type=float)
-    pars.add_argument('gb', type=float)
-    pars.add_argument('-f', '--freq', default=408, type=float)
-    pars.add_argument('-s', '--spind', default=-2.6, type=float)
+    pars = ap.ArgumentParser(description="Sky temperature calculator")
+    pars.add_argument('fits', help="Path to fits file containing temperature"
+                      "map")
+    pars.add_argument('gl', type=float, help="Galactic Longitude in degrees")
+    pars.add_argument('gb', type=float, help="Galactic Latitude in degrees")
+    pars.add_argument('-f', '--freq', default=408, type=float,
+                      help="Desired frequency for the temperature in MHz "
+                      "(default: 408)")
+    pars.add_argument('-s', '--spind', default=-2.6, type=float,
+                      help="Preferred spectral index for the sky (include "
+                      "sign; default: -2.6)")
 
     return(vars(pars.parse_args()))
 
